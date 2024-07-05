@@ -5,6 +5,7 @@ import static common.PlanetConstants.INVALID_PLANET;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -75,12 +76,41 @@ public class PlanetServiceTest {
     }
 
     @Test
-    public void getPlanet_WithInvalidId_ThrowsException(){
+    public void getPlanet_WithInvalidId_ReturnsNull(){
+
         // Arrange
         when(planetRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act
         Optional<Planet> sut = planetService.get(1L);
+
+        // Assert
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void getPlanetByName_WithValidName_ReturnsPlanet(){
+
+        // Arrange
+        when(planetRepository.findByName(PLANET.getName())).thenReturn(Optional.of(PLANET));
+
+        // Act
+        Optional<Planet> sut = planetService.getByName(PLANET.getName());
+
+        // Assert
+        assertThat(sut).isNotEmpty();
+        assertThat(sut.get()).isEqualTo(PLANET);
+    }
+
+    @Test
+    public void getPlanetByName_WithInvalidName_ReturnsNull(){
+
+        // Arrange
+        final String name = "Unexisting name";
+        when(planetRepository.findByName(name)).thenReturn(Optional.empty());
+
+        // Act
+        Optional<Planet> sut = planetService.getByName(name);
 
         // Assert
         assertThat(sut).isEmpty();
