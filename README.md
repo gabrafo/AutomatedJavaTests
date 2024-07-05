@@ -49,7 +49,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 #### Acknowledgments
 
 Special thanks to the instructor Giuliana Bezerra for her guidance and expertise in automated testing.
-
----
-
-Feel free to customize this README further based on specific details of your implementation and additional project requirements.
