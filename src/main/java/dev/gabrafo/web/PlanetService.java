@@ -1,8 +1,11 @@
 package dev.gabrafo.web;
 
 import dev.gabrafo.domain.Planet;
+import dev.gabrafo.domain.QueryBuilder;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +28,10 @@ public class PlanetService {
 
     public Optional<Planet> getByName(String name) {
         return planetRepository.findByName(name);
+    }
+
+    public List<Planet> list(String terrain, String climate) {
+        Example<Planet> query = QueryBuilder.makeQuery(new Planet(climate, terrain));
+        return planetRepository.findAll(query);
     }
 }

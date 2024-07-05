@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import dev.gabrafo.domain.Planet;
+import dev.gabrafo.domain.QueryBuilder;
 import dev.gabrafo.web.PlanetRepository;
 import dev.gabrafo.web.PlanetService;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 // Para testes de unidade é melhor usar o Mockito puro a usar Spring, para melhorar a otimização
@@ -111,6 +115,40 @@ public class PlanetServiceTest {
 
         // Act
         Optional<Planet> sut = planetService.getByName(name);
+
+        // Assert
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void listPlanets_ReturnsAllPlanets(){
+
+        // Arrange
+        List<Planet> planets = new ArrayList<>() {
+            {
+                add(PLANET);
+            }
+        };
+
+        Example<Planet> query = QueryBuilder.makeQuery(new Planet(PLANET.getClimate(), PLANET.getTerrain()));
+
+        when(planetRepository.findAll(query)).thenReturn(planets);
+
+        // Act
+        List<Planet> sut = planetService.list(PLANET.getTerrain(), PLANET.getClimate());
+
+        // Assert
+        assertThat(sut).containsExactly(PLANET);
+    }
+
+    @Test
+    public void listPlanets_ReturnsEmptyList(){
+
+        // Arrange
+        when(planetRepository.findAll(any())).thenReturn(List.of());
+
+        // Act
+        List<Planet> sut = planetService.list(PLANET.getTerrain(), PLANET.getClimate());
 
         // Assert
         assertThat(sut).isEmpty();
