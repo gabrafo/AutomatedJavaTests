@@ -22,14 +22,12 @@ public class PlanetRepositoryTest {
     @Test
     public void createPlanet_withValidData_ReturnsPlanet(){
 
-        // Arrange
         Planet planet = planetRepository.save(PLANET);
 
-        // Act
         Planet sut = testEntityManager.find(Planet.class, planet.getId());
 
-        // Assert
         assertThat(sut).isNotNull();
+
         // Precisamos validar cada propriedade porque o planet não tem ID, enquanto o sut tem
         assertThat(sut.getName()).isEqualTo(planet.getName());
         assertThat(sut.getClimate()).isEqualTo(planet.getClimate());
@@ -38,10 +36,23 @@ public class PlanetRepositoryTest {
 
     @Test
     public void createPlanet_WIthInvalidData_ThrowsException() {
+
         Planet emptyPlanet = new Planet();
         Planet invalidPlanet = new Planet("", "", "");
 
         assertThatThrownBy(() -> planetRepository.save(emptyPlanet)).isInstanceOf(RuntimeException.class);
         assertThatThrownBy(() -> planetRepository.save(invalidPlanet)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void createPlanet_WithExistingName_ThrowsException() {
+
+        Planet planet = testEntityManager.persistFlushFind(PLANET); // Vai ter um ID!
+        testEntityManager.detach(planet); // Faz com que o JPA "esqueça" que esse planeta já existe no BD
+        planet.setId(null); // Temos que setar como nulo para que o save(PLANET) não atualize o planeta existente no BD
+        // E sim que ele crie um novo planeta! Para saber se vai atualizar ou criar um recurso, o ORM checa se ele tem ID
+        // Por isso estamos tirando o ID
+
+        assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
     }
 }

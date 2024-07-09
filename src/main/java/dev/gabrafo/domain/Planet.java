@@ -12,7 +12,7 @@ public class Planet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true) // Não pode ter dois planetas com o mesmo nome
     @NotEmpty() // Constraints no banco de dados para garantir que não entrem dados inválidos
     private String name;
 
