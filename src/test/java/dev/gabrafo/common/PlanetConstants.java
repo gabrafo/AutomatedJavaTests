@@ -1,4 +1,4 @@
-package common;
+package dev.gabrafo.common;
 
 import dev.gabrafo.domain.Planet;
 

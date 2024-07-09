@@ -1,7 +1,7 @@
-package domain;
+package dev.gabrafo.domain;
 
-import static common.PlanetConstants.PLANET; // Acesso estático à constante
-import static common.PlanetConstants.INVALID_PLANET;
+import static dev.gabrafo.common.PlanetConstants.PLANET; // Acesso estático à constante
+import static dev.gabrafo.common.PlanetConstants.INVALID_PLANET;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,10 +9,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-import dev.gabrafo.domain.Planet;
-import dev.gabrafo.domain.QueryBuilder;
-import dev.gabrafo.domain.PlanetRepository;
-import dev.gabrafo.domain.PlanetService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
