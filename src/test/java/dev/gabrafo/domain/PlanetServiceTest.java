@@ -76,7 +76,7 @@ public class PlanetServiceTest {
     }
 
     @Test
-    public void getPlanet_WithInvalidId_ReturnsNull(){
+    public void getPlanet_WithInvalidId_ReturnsEmpty(){
 
         // Arrange
         when(planetRepository.findById(1L)).thenReturn(Optional.empty());
@@ -103,7 +103,7 @@ public class PlanetServiceTest {
     }
 
     @Test
-    public void getPlanetByName_WithInvalidName_ReturnsNull(){
+    public void getPlanetByName_WithInvalidName_ReturnsEmpty(){
 
         // Arrange
         final String name = "Unexisting name";

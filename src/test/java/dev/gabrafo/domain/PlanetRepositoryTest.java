@@ -1,10 +1,13 @@
 package dev.gabrafo.domain;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import java.util.Optional;
 
 import static dev.gabrafo.common.PlanetConstants.PLANET;
 
@@ -18,6 +21,11 @@ public class PlanetRepositoryTest {
 
     @Autowired
     private TestEntityManager testEntityManager; // Interage com o banco de dados sem usar o repository
+
+    @AfterEach
+    public void afterEach(){
+        PLANET.setId(null);
+    }
 
     @Test
     public void createPlanet_withValidData_ReturnsPlanet(){
@@ -54,5 +62,23 @@ public class PlanetRepositoryTest {
         // Por isso estamos tirando o ID
 
         assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void getPlanet_ByExistingId_ReturnsPlanet(){
+
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+
+        Optional<Planet> sut = planetRepository.findById(planet.getId());
+
+        assertThat(sut).isNotEmpty();
+        assertThat(sut).isEqualTo(Optional.of(planet));
+    }
+
+    @Test
+    public void getPlanet_WithInvalidId_ReturnsEmpty() {
+        Optional<Planet> sut = planetRepository.findById(1L);
+
+        assertThat(sut).isEmpty();
     }
 }
