@@ -6,10 +6,15 @@ import static org.assertj.core.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Example;
+import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
 import java.util.Optional;
 
 import static dev.gabrafo.common.PlanetConstants.PLANET;
+import static dev.gabrafo.common.PlanetConstants.PLANETS;
+import static dev.gabrafo.common.PlanetConstants.TATOOINE;
 
 // INTEGRAÇÃO COM BD
 // Utiliza um banco H2 em memória pra testar (já configura automaticamente)
@@ -95,8 +100,37 @@ public class PlanetRepositoryTest {
 
     @Test
     public void getPlanet_WithInvalidName_ReturnsEmpty() {
+
         Optional<Planet> sut = planetRepository.findByName("name");
 
         assertThat(sut).isEmpty();
+    }
+
+    @Sql(scripts = "/import_planets.sql")
+    @Test
+    public void listPlanets_ReturnsFilteredPlanets(){
+
+    Example<Planet> queryWithoutFilters = QueryBuilder.makeQuery(new Planet());
+    Example<Planet> filteredQuery = QueryBuilder.makeQuery((new Planet(TATOOINE.getClimate(), TATOOINE.getTerrain())));
+
+    List<Planet> responseWithoutFilters = planetRepository.findAll(queryWithoutFilters);
+    List<Planet> filteredResponse = planetRepository.findAll(filteredQuery);
+
+    assertThat(responseWithoutFilters).isNotEmpty();
+    assertThat(responseWithoutFilters).hasSize(3);
+
+    assertThat(filteredResponse).isNotEmpty();
+    assertThat(filteredResponse).hasSize(1);
+    assertThat(filteredResponse.get(0)).isEqualTo(TATOOINE);
+    }
+
+    @Test
+    public void listPlanets_ReturnsEmpty(){
+
+        Example<Planet> query= QueryBuilder.makeQuery(new Planet());
+
+        List<Planet> response = planetRepository.findAll(query);
+
+        assertThat(response).isEmpty();
     }
 }
