@@ -1,7 +1,5 @@
-package dev.gabrafo.web;
+package dev.gabrafo.domain;
 
-import dev.gabrafo.domain.Planet;
-import dev.gabrafo.domain.QueryBuilder;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +31,9 @@ public class PlanetService {
     public List<Planet> list(String terrain, String climate) {
         Example<Planet> query = QueryBuilder.makeQuery(new Planet(climate, terrain));
         return planetRepository.findAll(query);
+    }
+
+    public void remove(Long id) {
+        planetRepository.deleteById(id);
     }
 }

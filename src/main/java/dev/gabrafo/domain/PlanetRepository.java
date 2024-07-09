@@ -1,6 +1,5 @@
-package dev.gabrafo.web;
+package dev.gabrafo.domain;
 
-import dev.gabrafo.domain.Planet;
 import org.springframework.data.domain.Example;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;

@@ -3,16 +3,16 @@ package domain;
 import static common.PlanetConstants.PLANET; // Acesso estático à constante
 import static common.PlanetConstants.INVALID_PLANET;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import dev.gabrafo.domain.Planet;
 import dev.gabrafo.domain.QueryBuilder;
-import dev.gabrafo.web.PlanetRepository;
-import dev.gabrafo.web.PlanetService;
+import dev.gabrafo.domain.PlanetRepository;
+import dev.gabrafo.domain.PlanetService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -152,5 +152,22 @@ public class PlanetServiceTest {
 
         // Assert
         assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void removePlanet_WithValidId_DoestNotThrowException(){
+
+        // AAA
+        assertThatCode(() -> planetService.remove(1L)).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void removePlanet_WithInvalidId_ThrowsException(){
+
+        // Arrange
+        doThrow(RuntimeException.class).when(planetRepository).deleteById(anyLong());
+
+        // Act & Assert
+        assertThatThrownBy(() -> planetService.remove(1L)).isInstanceOf(RuntimeException.class);
     }
 }

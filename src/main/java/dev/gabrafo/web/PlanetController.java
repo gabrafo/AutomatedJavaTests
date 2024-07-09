@@ -1,6 +1,7 @@
 package dev.gabrafo.web;
 
 import dev.gabrafo.domain.Planet;
+import dev.gabrafo.domain.PlanetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +40,11 @@ public class PlanetController {
                                              @RequestParam(required = false) String climate) {
         List<Planet> planets = planetService.list(terrain, climate);
         return ResponseEntity.ok(planets);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> remove(@PathVariable("id") Long id) {
+        planetService.remove(id);
+        return ResponseEntity.noContent().build();
     }
 }

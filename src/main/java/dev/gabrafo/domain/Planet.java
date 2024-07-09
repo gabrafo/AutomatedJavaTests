@@ -60,6 +60,6 @@ public class Planet {
 
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(obj, this); // Compara o objeto com o nosso
+        return EqualsBuilder.reflectionEquals(obj, this); // Compara os objetos e não endereços de memória
     }
 }
