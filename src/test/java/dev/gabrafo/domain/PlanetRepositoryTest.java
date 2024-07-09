@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -13,8 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static dev.gabrafo.common.PlanetConstants.PLANET;
-import static dev.gabrafo.common.PlanetConstants.PLANETS;
 import static dev.gabrafo.common.PlanetConstants.TATOOINE;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 // INTEGRAÇÃO COM BD
 // Utiliza um banco H2 em memória pra testar (já configura automaticamente)
@@ -132,5 +134,33 @@ public class PlanetRepositoryTest {
         List<Planet> response = planetRepository.findAll(query);
 
         assertThat(response).isEmpty();
+    }
+
+    @Test
+    public void removePlanet_WithValidId_RemovesFromDb(){
+
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+
+        planetRepository.deleteById(planet.getId());
+
+        Planet removedPlanet = testEntityManager.find(Planet.class, planet.getId());
+        assertThat(removedPlanet).isNull();
+    }
+
+    @Sql(scripts = "/import_planets.sql")
+    @Test
+    public void removePlanet_WithInvalidId_DoesNotChangeDb(){
+        // Verifica que o planeta com ID 4L não existe antes da exclusão
+        assertThat(testEntityManager.find(Planet.class, 4L)).isNull();
+
+        planetRepository.deleteById(4L);
+
+        // Verifica que os planetas com IDs 1L, 2L e 3L ainda existem
+        assertThat(testEntityManager.find(Planet.class, 1L)).isInstanceOf(Planet.class);
+        assertThat(testEntityManager.find(Planet.class, 2L)).isInstanceOf(Planet.class);
+        assertThat(testEntityManager.find(Planet.class, 3L)).isInstanceOf(Planet.class);
+
+        // Verifica que o planeta com ID 4L ainda não existe após a tentativa de exclusão
+        assertThat(testEntityManager.find(Planet.class, 4L)).isNull();
     }
 }
