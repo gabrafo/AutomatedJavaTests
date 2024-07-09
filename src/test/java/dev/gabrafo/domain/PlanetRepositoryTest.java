@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static dev.gabrafo.common.PlanetConstants.PLANET;
 
+// INTEGRAÇÃO COM BD
 // Utiliza um banco H2 em memória pra testar (já configura automaticamente)
 @DataJpaTest
 public class PlanetRepositoryTest {
@@ -33,5 +34,14 @@ public class PlanetRepositoryTest {
         assertThat(sut.getName()).isEqualTo(planet.getName());
         assertThat(sut.getClimate()).isEqualTo(planet.getClimate());
         assertThat(sut.getTerrain()).isEqualTo(planet.getTerrain());
+    }
+
+    @Test
+    public void createPlanet_WIthInvalidData_ThrowsException() {
+        Planet emptyPlanet = new Planet();
+        Planet invalidPlanet = new Planet("", "", "");
+
+        assertThatThrownBy(() -> planetRepository.save(emptyPlanet)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> planetRepository.save(invalidPlanet)).isInstanceOf(RuntimeException.class);
     }
 }

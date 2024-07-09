@@ -1,6 +1,8 @@
 package dev.gabrafo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Entity
@@ -9,8 +11,17 @@ public class Planet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    @NotEmpty() // Constraints no banco de dados para garantir que não entrem dados inválidos
     private String name;
+
+    @Column(nullable = false)
+    @NotEmpty()
     private String climate;
+
+    @Column(nullable = false)
+    @NotEmpty()
     private String terrain;
 
     public Planet() {}
