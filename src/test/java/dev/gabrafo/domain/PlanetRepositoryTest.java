@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -15,8 +14,6 @@ import java.util.Optional;
 
 import static dev.gabrafo.common.PlanetConstants.PLANET;
 import static dev.gabrafo.common.PlanetConstants.TATOOINE;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 
 // INTEGRAÇÃO COM BD
 // Utiliza um banco H2 em memória pra testar (já configura automaticamente)
