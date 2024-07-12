@@ -41,7 +41,7 @@ cd AutomatedJavaTests
        GET /planets?climate=arid&terrain=desert
        ```
 
-2. **POST: **
+2. **POST:**
    - Creates a planet:
        ```
        POST /planets
@@ -56,7 +56,7 @@ cd AutomatedJavaTests
     }
    ```
 
-3. **DELETE: **
+3. **DELETE:**
    - Removes a planet by ID:
        ```
        DELETE /planets/1
