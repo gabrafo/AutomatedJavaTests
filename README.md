@@ -71,7 +71,7 @@ The course "Testes automatizados na prática com Spring Boot" provides a structu
 - Writing parameterized tests.
 - Testing Spring Boot applications.
 - Mocking dependencies and using test doubles.
-- Checking code coverage with Jacoco.
+- Checking code coverage with JaCoCo.
 - Generating mutated tests with Pitest.
 - Using Testcontainers for an isolated test enviroment.
 
