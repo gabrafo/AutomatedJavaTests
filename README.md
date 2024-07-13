@@ -68,9 +68,12 @@ The course "Testes automatizados na prática com Spring Boot" provides a structu
 
 - Introduction to automated testing concepts.
 - Writing unit tests and integration tests.
+- Writing parameterized tests.
 - Testing Spring Boot applications.
 - Mocking dependencies and using test doubles.
-- Testing APIs and external services.
+- Checking code coverage with Jacoco.
+- Generating mutated tests with Pitest.
+- Using Testcontainers for an isolated test enviroment.
 
 ### Contributing
 
