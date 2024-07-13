@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
+// TESTE DE INTEGRAÇÃO COM WEB
+
 @WebMvcTest(PlanetController.class) // Testa contexto Web (permite requisições HTTP)
 public class PlanetControllerTest {
 

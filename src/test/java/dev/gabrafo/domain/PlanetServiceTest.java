@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// TESTE UNITÁRIO
+
 // Para testes de unidade é melhor usar o Mockito puro a usar Spring, para melhorar a otimização
 
 // @SpringBootTest(classes = PlanetService.class) Monta o contexto de aplicação do Spring, não será usado aqui

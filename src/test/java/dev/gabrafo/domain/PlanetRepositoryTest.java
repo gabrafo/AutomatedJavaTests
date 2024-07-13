@@ -15,7 +15,7 @@ import java.util.Optional;
 import static dev.gabrafo.common.PlanetConstants.PLANET;
 import static dev.gabrafo.common.PlanetConstants.TATOOINE;
 
-// INTEGRAÇÃO COM BD
+// TESTE DE INTEGRAÇÃO COM BD
 // Utiliza um banco H2 em memória pra testar (já configura automaticamente)
 @DataJpaTest
 public class PlanetRepositoryTest {
@@ -47,7 +47,7 @@ public class PlanetRepositoryTest {
     }
 
     @Test
-    public void createPlanet_WIthInvalidData_ThrowsException() {
+    public void createPlanet_WithInvalidData_ThrowsException() {
 
         Planet emptyPlanet = new Planet();
         Planet invalidPlanet = new Planet("", "", "");
