@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.List;
-
 @ActiveProfiles("it")
 @Sql(scripts = {"/import_planets.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD) // Para o Get
 @Sql(scripts = {"/remove_planets.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // Para apagar registros do Post
@@ -94,6 +92,5 @@ public class PlanetIT {
                 null, Void.class);
 
         assertThat(sut.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-        assertThat(sut.getBody()).isNull();
     }
 }
