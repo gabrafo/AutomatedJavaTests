@@ -1,5 +1,6 @@
 package dev.gabrafo.domain;
 
+import dev.gabrafo.jacoco.ExcludeFromJacocoGeneratedReport;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -81,6 +82,7 @@ public class Planet {
         return EqualsBuilder.reflectionEquals(obj, this); // Compara os objetos e não endereços de memória
     }
 
+    @ExcludeFromJacocoGeneratedReport
     @Override
     public String toString() {
         return "{id=" + id +

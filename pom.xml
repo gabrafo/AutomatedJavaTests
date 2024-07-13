@@ -52,7 +52,6 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -79,6 +78,86 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Testes de unidade -->
+            <!-- ./mvnw clean verify -DskipITs=true ou ./mvnw clean test-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${surefire.skip}</skipTests>
+                </configuration>
+            </plugin>
+
+            <!-- Testes de integração -->
+            <!-- ./mvnw clean verify -Dsurefire.skip=true -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Teste de cobertura -->
+            <!-- ./mvnw clean test jacoco:report -->
+            <!-- Gera um arquivo HTML em /target/site -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+
+                <configuration>
+                    <excludes>
+                        <exclude>dev/gabrafo/PlanetsApplication.class</exclude>
+                    </excludes>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Testes mutantes -->
+            <!-- ./mvnw test-compile org.pitest:pitest-maven:mutationCoverage -->
+            <!-- Gera um arquivo HTML em /target/pit-reports -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.8.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.14</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetTests>
+                        <param>dev.gabrafo.*Test</param>
+                    </targetTests>
+                    <excludedClasses>
+                        <param>dev.gabrafo.domain.Planet</param>
+                    </excludedClasses>
+                </configuration>
             </plugin>
         </plugins>
     </build>

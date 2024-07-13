@@ -113,7 +113,7 @@ public class PlanetControllerTest {
 
         when(planetService.getByName(any())).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/planets/name/"))
+        mockMvc.perform(get("/planets/name/1"))
                 .andExpect(status().isNotFound());
     }
 
